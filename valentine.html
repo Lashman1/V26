@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pink Millionaire Valentine</title>
+  <style>
+    :root{
+      --bg1:#ff5fb7;
+      --bg2:#ff8fd0;
+      --panel:#21002b;
+      --panel2:#2f003f;
+      --gold:#ffd1f0;
+      --gold2:#ffe6f6;
+      --text:#ffffff;
+      --muted:rgba(255,255,255,.82);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(900px 650px at 80% 30%, rgba(255,255,255,.25), transparent 60%),
+        radial-gradient(900px 650px at 50% 90%, rgba(255,255,255,.20), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+
+    /* floating hearts background */
+    .hearts{ position:fixed; inset:0; pointer-events:none; opacity:.35; }
+    .heart{
+      position:absolute;
+      width:18px; height:18px;
+      transform: rotate(45deg);
+      background: rgba(255,255,255,.9);
+      border-radius: 4px;
+      animation: floatUp linear infinite;
+    }
+    .heart:before, .heart:after{
+      content:"";
+      position:absolute;
+      width:18px;height:18px;
+      background: inherit;
+      border-radius:50%;
+    }
+    .heart:before{ left:-9px; top:0; }
+    .heart:after{ top:-9px; left:0; }
+    @keyframes floatUp{
+      from{ transform: translateY(120vh) rotate(45deg) scale(.9); opacity:0; }
+      10%{ opacity:.45; }
+      to{ transform: translateY(-20vh) rotate(45deg) scale(1.25); opacity:0; }
+    }
+
+    .wrap{
+      position:relative;
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding:20px;
+    }
+    .stage{
+      width:min(980px, 94vw);
+      display:grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .stage{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(33,0,43,.92), rgba(47,0,63,.92));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow:hidden;
+      position:relative;
+      min-height: 420px;
+    }
+
+    .topbar{
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(90deg, rgba(255,255,255,.08), transparent);
+    }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.4px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      font-size:12px;
+      color:var(--muted);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .badge b{ color:white; }
+
+    .media{ display:grid; grid-template-rows:auto 1fr; }
+    .pigWrap{ padding:16px; display:grid; gap:12px; }
+
+    .pig{
+      width:100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 14px 30px rgba(0,0,0,.25);
+      background: rgba(255,255,255,.08);
+    }
+    .subtitle{ color: var(--muted); font-size: 13px; line-height:1.3; }
+
+    .qa{ padding:18px 16px 16px; display:grid; gap:14px; }
+    .question{
+      padding:16px;
+      border-radius: 16px;
+      border: 2px solid rgba(255,255,255,.18);
+      background: radial-gradient(900px 120px at 50% 0%, rgba(255,255,255,.10), transparent 60%),
+                  linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      position:relative;
+      overflow:hidden;
+    }
+    .qText{
+      position:relative;
+      z-index:1;
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 900;
+      text-align:center;
+      margin: 0;
+      text-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+
+    .answers{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+
+    .btn{
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+      color: white;
+      padding: 14px;
+      font-weight: 900;
+      cursor:pointer;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      transition: transform .08s ease, box-shadow .15s ease, border-color .2s ease, background .2s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      outline:none;
+    }
+    .btn:hover{
+      border-color: rgba(255,255,255,.35);
+      background: linear-gradient(180deg, rgba(255,79,176,.18), rgba(255,255,255,.04));
+      transform: translateY(-1px);
+    }
+    .btn:active{ transform: translateY(1px) scale(.995); }
+    .btn[disabled]{ opacity:.6; cursor:not-allowed; transform:none; }
+
+    .choice{
+      width:30px; height:30px;
+      border-radius: 50%;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      font-weight: 950;
+      flex: 0 0 auto;
+    }
+    .label{ display:flex; align-items:baseline; gap:8px; }
+    .label small{ opacity:.75; font-weight:700; }
+
+    .footer{
+      padding: 14px 16px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.14);
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(12,0,18,.55);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+    }
+    .overlay.show{ display:grid; }
+    .result{
+      width:min(720px, 92vw);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(33,0,43,.94), rgba(47,0,63,.94));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 30px 90px rgba(0,0,0,.5);
+      overflow:hidden;
+    }
+    .resultHeader{
+      padding: 18px 18px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .resultHeader h2{ margin:0; font-size: 20px; font-weight: 950; }
+    .close{
+      border:none;
+      border-radius: 999px;
+      padding:10px 12px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color:white;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .resultBody{ padding: 18px; display:grid; gap:10px; text-align:center; }
+    .big{ font-size: clamp(26px, 4vw, 44px); font-weight: 950; margin: 0; line-height:1.05; }
+    .msg{ margin:0 auto; max-width: 50ch; color: var(--muted); font-size: 14px; line-height:1.4; }
+    .ctaRow{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top: 8px; }
+    .cta{
+      border:none;
+      border-radius: 999px;
+      padding: 12px 14px;
+      cursor:pointer;
+      font-weight: 950;
+      color:#1a001f;
+      background: linear-gradient(180deg, var(--gold2), var(--gold));
+      box-shadow: 0 14px 30px rgba(0,0,0,.25);
+    }
+
+    #fx{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index: 60;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+  <canvas id="fx"></canvas>
+
+  <div class="wrap">
+    <div class="stage">
+      <section class="card media">
+        <div class="topbar">
+          <div class="brand"><span style="font-size:18px">💗</span><span>WHO WANTS TO BE MY VALENTINE?</span></div>
+          <div class="badge">Theme: <b>Pink Millionaire</b></div>
+        </div>
+        <div class="pigWrap">
+          <img class="pig" src="GuineaPig.jpeg" alt="Cute guinea pig asking a question" />
+          <div class="subtitle">Pick any answer… (spoiler: they all lead to the same ✨ correct ✨ outcome)</div>
+        </div>
+        <div class="footer">
+          <span class="pill">🎀 No wrong answers</span>
+          <span class="pill">🔥 Click to reveal</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="topbar">
+          <div class="brand"><span style="font-size:18px">👑</span><span>QUESTION FOR 1,000,000 HEARTS</span></div>
+          <div class="badge">Lifelines: <b>💞 4/4</b></div>
+        </div>
+
+        <div class="qa">
+          <div class="question"><p class="qText">Will you be my valentine?</p></div>
+
+          <div class="answers" id="answers">
+            <button class="btn" data-choice="A" type="button"><span class="choice">A</span><span class="label">Yes <small>(obviously)</small></span></button>
+            <button class="btn" data-choice="B" type="button"><span class="choice">B</span><span class="label">A <small>(this becomes… yes)</small></span></button>
+            <button class="btn" data-choice="C" type="button"><span class="choice">C</span><span class="label">B <small>(still yes)</small></span></button>
+            <button class="btn" data-choice="D" type="button"><span class="choice">D</span><span class="label">C <small>(also yes)</small></span></button>
+          </div>
+
+          <div class="footer">
+            <span>Tip: Any option works 😌</span>
+            <span>Press <b>Esc</b> to close result</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Result">
+    <div class="result">
+      <div class="resultHeader">
+        <h2>Final Answer</h2>
+        <button class="close" id="closeBtn" type="button">Close ✖</button>
+      </div>
+      <div class="resultBody">
+        <p class="big" id="bigText">IT'S A YES 💞</p>
+        <p class="msg" id="msgText">Congratulations. You selected the only correct answer: <b>YES</b>. (Even if you didn’t. You did.)</p>
+        <div class="ctaRow">
+          <button class="cta" id="againBtn" type="button">Play again</button>
+          <button class="cta" id="moreFxBtn" type="button">More fireworks ✨</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // hearts
+    (function(){
+      const root = document.getElementById("hearts");
+      for(let i=0;i<28;i++){
+        const h = document.createElement("div");
+        h.className = "heart";
+        const left = Math.random()*100;
+        const size = 10 + Math.random()*18;
+        const dur = 6 + Math.random()*10;
+        const delay = Math.random()*-dur;
+        h.style.left = left + "vw";
+        h.style.width = size + "px";
+        h.style.height = size + "px";
+        h.style.animationDuration = dur + "s";
+        h.style.animationDelay = delay + "s";
+        h.style.opacity = (0.15 + Math.random()*0.35).toFixed(2);
+        root.appendChild(h);
+      }
+    })();
+
+    // UI logic
+    const overlay = document.getElementById("overlay");
+    const answers = document.getElementById("answers");
+    const closeBtn = document.getElementById("closeBtn");
+    const againBtn = document.getElementById("againBtn");
+    const moreFxBtn = document.getElementById("moreFxBtn");
+
+    function disableAnswers(disabled){
+      Array.from(answers.querySelectorAll("button")).forEach(b => b.disabled = disabled);
+    }
+    function closeResult(){
+      overlay.classList.remove("show");
+      disableAnswers(false);
+      Array.from(answers.querySelectorAll("button")).forEach(b => {
+        b.style.borderColor = "";
+        b.style.boxShadow = "";
+      });
+    }
+
+    answers.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-choice]");
+      if(!btn) return;
+      disableAnswers(true);
+      btn.style.borderColor = "rgba(255,255,255,.6)";
+      btn.style.boxShadow = "0 0 0 4px rgba(255,79,176,.25), 0 18px 40px rgba(0,0,0,.35)";
+      setTimeout(() => {
+        overlay.classList.add("show");
+        boomFireworks(8);
+        document.getElementById("msgText").innerHTML =
+          `You clicked <b>${btn.dataset.choice}</b> — and that means <b>YES</b>. 💖<br/>The guinea pig is emotionally thriving right now.`;
+      }, 350);
+    });
+
+    closeBtn.addEventListener("click", closeResult);
+    againBtn.addEventListener("click", closeResult);
+    moreFxBtn.addEventListener("click", () => boomFireworks(10));
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && overlay.classList.contains("show")) closeResult();
+    });
+    overlay.addEventListener("click", (e) => {
+      if(e.target.closest(".result")) return;
+      closeResult();
+    });
+
+    // fireworks (compat mode)
+    const canvas = document.getElementById("fx");
+    let ctx = null;
+    try { ctx = canvas.getContext("2d"); } catch(_) { ctx = null; }
+
+    function resize(){
+      if(!ctx) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const particles = [];
+    let animating = false;
+
+    function rand(min, max){ return Math.random()*(max-min)+min; }
+
+    function addBurst(x, y){
+      const n = Math.floor(rand(40, 70));
+      for(let i=0;i<n;i++){
+        const angle = rand(0, Math.PI*2);
+        const speed = rand(2.5, 7.0);
+        particles.push({
+          x, y,
+          vx: Math.cos(angle)*speed,
+          vy: Math.sin(angle)*speed,
+          life: rand(45, 85),
+          r: rand(1.5, 3.0),
+          drag: rand(0.985, 0.992),
+          grav: rand(0.03, 0.08),
+          hue: rand(310, 355),
+          sat: rand(75, 95),
+          lit: rand(60, 80),
+          a: 1
+        });
+      }
+    }
+
+    function boomFireworks(count){
+      if(!ctx) return; // still works without fireworks
+      for(let i=0;i<count;i++){
+        addBurst(
+          rand(window.innerWidth*0.18, window.innerWidth*0.82),
+          rand(window.innerHeight*0.18, window.innerHeight*0.55)
+        );
+      }
+      if(!animating){
+        animating = true;
+        requestAnimationFrame(tick);
+      }
+    }
+
+    function tick(){
+      if(!ctx){ animating = false; return; }
+      ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+      for(let i=particles.length-1;i>=0;i--){
+        const p = particles[i];
+        p.life -= 1;
+        p.vx *= p.drag;
+        p.vy *= p.drag;
+        p.vy += p.grav;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.a = Math.max(0, Math.min(1, p.life / 85));
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        // OLD-SYNTAX hsla(h, s%, l%, a) for max compatibility:
+        ctx.fillStyle = "hsla(" + p.hue + "," + p.sat + "%," + p.lit + "%," + p.a + ")";
+        ctx.fill();
+
+        if(p.life <= 0) particles.splice(i,1);
+      }
+
+      if(particles.length > 0){
+        requestAnimationFrame(tick);
+      } else {
+        animating = false;
+        ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+      }
+    }
+  </script>
+</body>
+</html>
